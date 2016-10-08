@@ -8,9 +8,9 @@
 
 class DBConfig {
     
-    static let HOST = "127.0.0.1"
+    static let HOST = "118.178.90.225"
     static let USER = "king"
-    static let PWD = "king"
+    static let PWD = "King"
     static let DATABASE = "SJWeather"
     
 }
