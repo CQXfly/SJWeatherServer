@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/base/sh
 
 #echo "$1 $2"
 if [ $1 ]
