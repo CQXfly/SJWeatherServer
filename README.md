@@ -64,21 +64,20 @@ chmod +x ./run.sh
 
 ```http
 // 注册 userNmae pwd 必填
-http://127.0.0.1/v1/registered.json
+http://118.178.90.225/v1/registered.json
 
 // 登录 userNmae pwd 必填 登录成功 返回 token 后续每个接口都要带上
-http://127.0.0.1/v1/login.json
+http://118.178.90.225/v1/login.json
 
 // 城市列表
-http://127.0.0.1/v1/cityList.json 
+http://118.178.90.225/v1/cityList.json 
 
 // 根据城市 查询 具体天气
 // 需要参数 city 城市 必填 province 省份 可填
-http://127.0.0.1/v1/query.json
+http://118.178.90.225/v1/query.json
 
 // 查询天气 类型
-http://127.0.0.1/v1/type.json
-
+http://118.178.90.225/v1/type.json
 
 ```
 
