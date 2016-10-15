@@ -58,6 +58,20 @@ extension RequestHandler {
         
     }
     
+    static func handlerLogout(request: Request) throws -> ResponseRepresentable {
+        guard let token = request.data["token"]?.string else {
+            
+            return try Response(status: .badRequest, json: JSON(node: ["error" : "请先登录"]))
+        }
+        
+        let reults = DBManager.share().signOutAccount(token: token)
+        if reults.isOk {
+            return try Response(status: .ok, json: JSON(node: ["reults" : "已退出"]))
+        } else {
+            return try Response(status: .ok, json: JSON(node: ["error" : reults.errorInfo]))
+        }
+    }
+    
 }
 
 extension RequestHandler {
@@ -95,7 +109,8 @@ extension RequestHandler {
             parameter["province"] = province
         }
         
-        if parameter.isEmpty == false, parameter.count > 0 {
+        if parameter.isEmpty == false, parameter.count >= 2 {
+            print("获取城市数据天气数据....")
             return try app.client.get(GlobalConfiguration.getQueryURL(),
                                       query: parameter)
         } else {

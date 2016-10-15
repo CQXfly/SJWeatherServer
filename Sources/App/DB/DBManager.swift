@@ -79,7 +79,27 @@ class DBManager {
         }
         return (false, "")
     }
-    
+    func signOutAccount(token: String) -> (isOk: Bool, errorInfo: String) {
+        
+        guard databaseConnectionStatus else {
+            
+            return (false, "数据库连接失败!")
+        }
+        
+        do {
+            var results = try mysql.execute("delete from sign_in where token=\"\(token)\";")
+            results = try mysql.execute("select * from sign_in where token=\"\(token)\";")
+            if results.count == 0 {
+                return (true, "")
+            } else {
+                return (false, "未知错误")
+            }
+        } catch  {
+            
+        }
+        
+        return (false, "未知错误")
+    }
     func queryUserId(userName: String, pwd: String) -> (userId: Int, erroInfo: String) {
         
         guard databaseConnectionStatus else {
