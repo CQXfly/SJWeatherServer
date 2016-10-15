@@ -103,11 +103,11 @@ extension RequestHandler {
         
         var parameter: [String : String] = [:]
         
+        parameter["key"]  = mobWeatherAppKey
         // 提取城市
         if let city = request.data["city"]?.string {
             
             parameter["city"] = city
-            parameter["key"]  = mobWeatherAppKey
             
         } else {
             return try Response(status: .ok, json: JSON(node: ["error" : "请输入要查询的城市"]))
@@ -118,7 +118,7 @@ extension RequestHandler {
         }
         
         if parameter.isEmpty == false, parameter.count >= 2 {
-            print("获取城市数据天气数据....")
+            print("获取城市数据天气数据.... \(parameter)")
             return try app.client.get(GlobalConfiguration.getQueryURL(),
                                       query: parameter)
         } else {
