@@ -42,7 +42,7 @@ app.get("/") { request in
     let path = app.workDir + "QQ20160816-0.png"
     print(path)
     do {
-        let bytes = try DataFile().load(path: "path")
+        let bytes = try DataFile().load(path: path)
         print(bytes)
         return Response(status: .ok, headers: ["Content-Type" : "image/*"], body: Body.data(bytes))
     } catch {
