@@ -186,7 +186,8 @@ class DBManager {
         let expired: Double = 60.0 * 60.0 * 24.0 * 10.0
         
         do {
-            var results = try mysql.execute("select create_time from sign_in where token=\"\(token)\";")
+            print(token)
+            let results = try mysql.execute("select create_time from sign_in where token=\"\(token)\";")
             print(results)
             if let create_time = results[0]["create_time"] {
                 
