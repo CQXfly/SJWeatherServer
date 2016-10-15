@@ -107,7 +107,7 @@ extension RequestHandler {
         // 提取城市
         if let city = request.data["city"]?.string {
             
-            parameter["city"] = city
+            parameter["city"] = "%E5%8D%97%E4%BA%AC"
             
         } else {
             return try Response(status: .ok, json: JSON(node: ["error" : "请输入要查询的城市"]))
