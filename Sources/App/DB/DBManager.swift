@@ -187,9 +187,11 @@ class DBManager {
         
         do {
             var results = try mysql.execute("select create_time from sign_in where token=\"\(token)\";")
+            print(results)
             if let create_time = results[0]["create_time"] {
                 
                 if case let .number(.double(create_time)) = create_time {
+                    print("create_time: \(create_time)")
                     if create_time + expired < Date().timeIntervalSince1970   {
                        return true
                     }
