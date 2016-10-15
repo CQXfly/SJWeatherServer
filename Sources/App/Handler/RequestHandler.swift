@@ -61,7 +61,7 @@ extension RequestHandler {
     static func handlerLogout(request: Request) throws -> ResponseRepresentable {
         guard let token = request.data["token"]?.string else {
             
-            return try Response(status: .badRequest, json: JSON(node: ["error" : "请先登录"]))
+            return try Response(status: .ok, json: JSON(node: ["error" : "请先登录"]))
         }
         
         let reults = DBManager.share().signOutAccount(token: token)
@@ -78,20 +78,28 @@ extension RequestHandler {
     
     static func handlerGetCityList(request: Request) throws -> ResponseRepresentable {
         
-        guard request.data["token"]?.string != nil else {
+        guard let token = request.data["token"]?.string , token != "" else {
             
-            return try Response(status: .badRequest, json: JSON(node: ["error" : "请先登录"]))
+            return try Response(status: .ok, json: JSON(node: ["error" : "请先登录"]))
         }
         
+        if DBManager.share().checkTokenExpired(token: token) {
+            return try Response(status: .ok, json: JSON(node: ["error" : "授权已过期!"]))
+        }
         return try app.client.get(GlobalConfiguration.getCityListURL(), query: ["key" : mobWeatherAppKey])
     }
     
     static func handlerQuery(request: Request) throws -> ResponseRepresentable {
         
-        guard request.data["token"]?.string != nil else {
+        guard let token = request.data["token"]?.string , token != "" else {
             
-            return try Response(status: .badRequest, json: JSON(node: ["error" : "请先登录"]))
+            return try Response(status: .ok, json: JSON(node: ["error" : "请先登录"]))
         }
+        
+        if DBManager.share().checkTokenExpired(token: token) {
+            return try Response(status: .ok, json: JSON(node: ["error" : "授权已过期!"]))
+        }
+
         
         var parameter: [String : String] = [:]
         
@@ -102,7 +110,7 @@ extension RequestHandler {
             parameter["key"]  = mobWeatherAppKey
             
         } else {
-            return try Response(status: .badRequest, json: JSON(node: ["error" : "请输入要查询的城市"]))
+            return try Response(status: .ok, json: JSON(node: ["error" : "请输入要查询的城市"]))
         }
         // 提取省份
         if let province = request.data["province"]?.string {
@@ -114,17 +122,22 @@ extension RequestHandler {
             return try app.client.get(GlobalConfiguration.getQueryURL(),
                                       query: parameter)
         } else {
-            return try Response(status: .badRequest, json: JSON(node: ["error" : "参数不对!"]))
+            return try Response(status: .ok, json: JSON(node: ["error" : "参数不对!"]))
         }
         
     }
     
     static func handlerWeatherType(request: Request) throws -> ResponseRepresentable {
         
-        guard request.data["token"]?.string != nil else {
+        guard let token = request.data["token"]?.string , token != "" else {
             
-            return try Response(status: .badRequest, json: JSON(node: ["error" : "请先登录"]))
+            return try Response(status: .ok, json: JSON(node: ["error" : "请先登录"]))
         }
+        
+        if DBManager.share().checkTokenExpired(token: token) {
+            return try Response(status: .ok, json: JSON(node: ["error" : "授权已过期!"]))
+        }
+
         
         return try app.client.get(GlobalConfiguration.getWeatherTypeURL(), query: ["key" : mobWeatherAppKey])
     }

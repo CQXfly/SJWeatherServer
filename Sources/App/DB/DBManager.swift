@@ -6,6 +6,7 @@
 //
 //
 
+import Foundation
 import MySQL
 
 class DBManager {
@@ -144,7 +145,7 @@ class DBManager {
         
         do {
             
-            var results = try mysql.execute("select token from sign_in where user_id=\(userid.userId)")
+            var results = try mysql.execute("select token from sign_in where user_id=\(userid.userId);")
             
             if results.count > 0 {
                 
@@ -160,10 +161,11 @@ class DBManager {
                 if token == "" {
                     return (false, "", "获取Token失败!!,请重试!")
                 }
+                let create_time = Date().timeIntervalSince1970
                 
-                results = try mysql.execute("insert into sign_in (user_id, token) values(\(userid.userId),\"\(token)\");")
+                results = try mysql.execute("insert into sign_in (user_id, token, create_time) values(\(userid.userId),\"\(token)\",\(create_time));")
                 
-                results = try mysql.execute("select token from sign_in where user_id=\(userid.userId)")
+                results = try mysql.execute("select token from sign_in where user_id=\(userid.userId);")
                 
                 if results.count > 0 {
                     return (true, token, "")
@@ -176,5 +178,27 @@ class DBManager {
         }
         
         return (false, "", "获取Token失败!!,请重试!")
+    }
+    
+    @discardableResult
+    func checkTokenExpired(token: String) -> Bool {
+        
+        let expired: Double = 60.0 * 60.0 * 24.0 * 10.0
+        
+        do {
+            var results = try mysql.execute("select create_time from sign_in where token=\"\(token)\";")
+            if let create_time = results[0]["create_time"] {
+                
+                if case let .number(.double(create_time)) = create_time {
+                    if create_time + expired < Date().timeIntervalSince1970   {
+                       return true
+                    }
+                }
+            }
+        } catch {
+            
+        }
+        
+        return false
     }
 }
