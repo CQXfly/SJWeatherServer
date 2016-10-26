@@ -60,6 +60,8 @@ brew install vapor/tap/toolbox
    sudo apt-get install mysql-server
 
   // OK，5.7版本的mysql安装成功！
+  // 在安装下面的 不然可能会出现 MySQL头文件找不到
+  apt-get install libmysqlclient-dev 
 
   /**
   常用命令：
@@ -101,19 +103,19 @@ brew install vapor/tap/toolbox
 
   ```scss
   // 注册 userNmae pwd 必填
-  http://118.178.90.225/v1/registered.json
+  http://59.110.6.8/v1/registered.json
 
   // 登录 userNmae pwd 必填 登录成功 返回 token 后续每个接口都要带上
-  http://118.178.90.225/v1/login.json
+  http://59.110.6.8/v1/login.json
 
   // 城市列表
-  http://118.178.90.225/v1/citylist.json
+  http://59.110.6.8/v1/citylist.json
 
   // 根据城市 查询 具体天气
   // 需要参数 city 城市 必填 province 省份 可填
-  http://118.178.90.225/v1/query.json
+  http://59.110.6.8/v1/query.json
 
   // 查询天气 类型
-  http://118.178.90.225/v1/type.json
+  http://59.110.6.8/v1/type.json
   ```
 
