@@ -67,16 +67,23 @@ brew install vapor/tap/toolbox
   常用命令：
    一）、启动
    1、使用 service 启动：service mysql start
-   2、使用 mysqld 脚本启动：/etc/inint.d/mysqlstart
+   2、使用 mysqld 脚本启动：/etc/inint.d/mysql start
    3、使用 safe_mysqld 启动：safe_mysql&
    二）、停止
-   1、使用 service 启动：service mysqlstop
-   2、使用 mysqld 脚本启动：/etc/inint.d/mysqlstop
+   1、使用 service 启动：service mysql stop
+   2、使用 mysqld 脚本启动：/etc/inint.d/mysql stop
    3、mysqladmin shutdown 
    三）、重启
-   1、使用 service 启动：service mysqlrestart
-   2、使用 mysqld 脚本启动：/etc/inint.d/mysqlrestart
+   1、使用 service 启动：service mysql restart
+   2、使用 mysqld 脚本启动：/etc/inint.d/mysql restart
    
+   // 添加账户
+   grant all privileges on *.* to "username"@"hostname" identified by "passwd";
+   // 上面命令在5.7执行可能会报错
+   // 解决: 先退出 MySQL 执行下面命令 
+   mysql_upgrade -u root -p
+   // 重启MySQL
+   service mysql restart
    */
   ```
 
